@@ -22,8 +22,8 @@ cat > .env.local << EOL
 # Contentful API credentials
 # Replace these values with your actual Contentful credentials
 CONTENTFUL_SPACE_ID=your_space_id
-CONTENTFUL_ACCESS_TOKEN=your_access_token
-CONTENTFUL_PREVIEW_ACCESS_TOKEN=your_preview_token
+CONTENTFUL_DELIVERY_TOKEN=your_delivery_token
+CONTENTFUL_PREVIEW_TOKEN=your_preview_token
 CONTENTFUL_PREVIEW_SECRET=your_preview_secret
 CONTENTFUL_ENVIRONMENT=master
 
