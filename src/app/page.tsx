@@ -1,95 +1,67 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { draftMode } from "next/headers";
+import * as contentfulClient from "@/lib/contentful";
+import PreviewBanner from "@/components/PreviewBanner";
+import ContentRenderer from "@/components/ContentRenderer";
+import Template from "./template";
+import EnvDebug from "@/components/EnvDebug";
+import ContentfulTest from "@/components/ContentfulTest";
 
-export default function Home() {
+export default async function Home() {
+  // Get the draft mode status
+  const { isEnabled } = draftMode();
+
+  // Get environment variables for debugging
+  const spaceId = process.env.CONTENTFUL_SPACE_ID || "";
+  const environment = process.env.CONTENTFUL_ENVIRONMENT || "";
+
+  // We'll handle errors better here
+  let homepage = null;
+  let error = null;
+
+  try {
+    // Fetch the homepage content (with preview data if in draft mode)
+    homepage = await contentfulClient.fetchEntry("homepage", isEnabled);
+  } catch (e) {
+    error = e.message || "An error occurred fetching content";
+    console.error("Error fetching homepage:", e);
+  }
+
+  const entryId = homepage?.sys?.id || "";
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <Template isPreviewActive={isEnabled}>
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <div className="z-10 w-full max-w-5xl items-center justify-between">
+          {error ? (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              <h2 className="text-xl font-bold">Error loading content</h2>
+              <p>{error}</p>
+            </div>
+          ) : (
+            <>
+              <h1 className="text-4xl font-bold mb-6">
+                {homepage?.fields?.title ||
+                  "Welcome to Contentful Live Preview"}
+              </h1>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+              {homepage?.fields?.description && (
+                <p className="text-xl mb-6">{homepage.fields.description}</p>
+              )}
+
+              {homepage?.fields?.content && (
+                <ContentRenderer
+                  content={homepage.fields.content}
+                  entryId={entryId}
+                />
+              )}
+            </>
+          )}
+
+          <ContentfulTest initialError={error} />
+          <EnvDebug spaceId={spaceId} environment={environment} />
+          <PreviewBanner isPreview={isEnabled} />
         </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </Template>
   );
 }
