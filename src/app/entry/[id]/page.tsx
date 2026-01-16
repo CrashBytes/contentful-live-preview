@@ -1,7 +1,7 @@
 import { draftMode } from "next/headers";
 import * as contentfulClient from "@/lib/contentful";
 import PreviewBanner from "@/components/PreviewBanner";
-import FieldRenderer from "@/components/FieldRenderer";
+import ContentPreviewToggle from "@/components/ContentPreviewToggle";
 import Template from "../../template";
 import Link from "next/link";
 
@@ -160,21 +160,12 @@ export default async function EntryPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Entry Fields */}
+              {/* Entry Content with Toggle */}
               <div className="p-6">
-                {fieldKeys.length === 0 ? (
-                  <p className="text-gray-500 italic">No fields in this entry</p>
-                ) : (
-                  <dl className="space-y-2">
-                    {fieldKeys.map((fieldKey) => (
-                      <FieldRenderer
-                        key={fieldKey}
-                        fieldName={fieldKey}
-                        fieldValue={fields[fieldKey]}
-                      />
-                    ))}
-                  </dl>
-                )}
+                <ContentPreviewToggle 
+                  entry={entry} 
+                  contentTypeName={contentType?.name || contentTypeId || "Unknown"}
+                />
               </div>
 
               {/* Metadata Section */}
