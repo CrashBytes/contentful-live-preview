@@ -17,7 +17,7 @@
     "@contentful/rich-text-react-renderer": "^16.0.1",
     "@contentful/rich-text-types": "^17.0.0",
     "contentful": "^11.5.18",
-    "next": "15.3.1",
+    "next": "16.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
