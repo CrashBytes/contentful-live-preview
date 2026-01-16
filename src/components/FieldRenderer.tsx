@@ -63,17 +63,24 @@ export default function FieldRenderer({
     return (
       <div className="mb-6">
         <div className="font-semibold text-gray-700 mb-2">{fieldName}</div>
+        {asset.title && (
+          <div className="text-sm font-medium text-gray-600 mb-1">
+            {asset.title}
+          </div>
+        )}
+        {asset.description && (
+          <div className="text-sm text-gray-500 mb-2">{asset.description}</div>
+        )}
         <div>
           {isImage ? (
             <ContentfulImage
-              src={file.url}
+              asset={fieldValue}
               alt={asset.title || asset.description || fieldName}
-              width={file.details?.image?.width || 800}
-              height={file.details?.image?.height || 600}
+              className="rounded-lg shadow-md"
             />
           ) : (
             <a
-              href={file.url}
+              href={`https:${file.url}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline inline-flex items-center gap-2"

@@ -158,10 +158,10 @@ function DebugView({ entry }: { entry: any }) {
           </div>
           {/* Show raw JSON for debugging */}
           <details className="mt-4">
-            <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700">
-              Show raw JSON
+            <summary className="text-sm text-gray-600 cursor-pointer hover:text-gray-900 font-medium">
+              ▶ Show raw JSON
             </summary>
-            <pre className="mt-2 bg-gray-50 p-3 rounded text-xs overflow-auto max-h-96">
+            <pre className="mt-2 bg-gray-50 p-3 rounded text-xs overflow-auto max-h-96 border border-gray-200">
               {JSON.stringify(fieldValue, null, 2)}
             </pre>
           </details>
