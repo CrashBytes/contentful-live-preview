@@ -75,3 +75,15 @@ export async function fetchEntriesByField(
     return [];
   }
 }
+
+// Fetch all content types in the space
+export async function fetchContentTypes() {
+  try {
+    const currentClient = getClient(false); // Content types are same for both preview and published
+    const contentTypes = await currentClient.getContentTypes();
+    return contentTypes.items;
+  } catch (error) {
+    console.error("Error fetching content types:", error);
+    return [];
+  }
+}
