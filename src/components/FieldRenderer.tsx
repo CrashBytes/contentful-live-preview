@@ -20,8 +20,8 @@ export default function FieldRenderer({
   if (fieldValue === null || fieldValue === undefined) {
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd className="text-gray-500 italic">No value</dd>
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div className="text-gray-500 italic">No value</div>
       </div>
     );
   }
@@ -33,10 +33,10 @@ export default function FieldRenderer({
   ) {
     return (
       <div className="mb-6">
-        <dt className="font-semibold text-gray-700 mb-2">{fieldName}</dt>
-        <dd className="prose max-w-none">
+        <div className="font-semibold text-gray-700 mb-2">{fieldName}</div>
+        <div className="prose max-w-none">
           <RichText content={fieldValue as Document} />
-        </dd>
+        </div>
       </div>
     );
   }
@@ -52,8 +52,8 @@ export default function FieldRenderer({
     if (!file) {
       return (
         <div className="mb-4">
-          <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-          <dd className="text-gray-500 italic">Asset (no file)</dd>
+          <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+          <div className="text-gray-500 italic">Asset (no file)</div>
         </div>
       );
     }
@@ -62,8 +62,8 @@ export default function FieldRenderer({
 
     return (
       <div className="mb-6">
-        <dt className="font-semibold text-gray-700 mb-2">{fieldName}</dt>
-        <dd>
+        <div className="font-semibold text-gray-700 mb-2">{fieldName}</div>
+        <div>
           {isImage ? (
             <ContentfulImage
               src={file.url}
@@ -97,7 +97,7 @@ export default function FieldRenderer({
               </span>
             </a>
           )}
-        </dd>
+        </div>
       </div>
     );
   }
@@ -112,8 +112,8 @@ export default function FieldRenderer({
 
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd>
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div>
           <Link
             href={`/entry/${entryId}`}
             className="text-blue-600 hover:underline inline-flex items-center gap-1"
@@ -135,7 +135,7 @@ export default function FieldRenderer({
               entryFields?.name ||
               `Entry: ${entryId.slice(0, 8)}...`}
           </Link>
-        </dd>
+        </div>
       </div>
     );
   }
@@ -145,8 +145,8 @@ export default function FieldRenderer({
     if (fieldValue.length === 0) {
       return (
         <div className="mb-4">
-          <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-          <dd className="text-gray-500 italic">Empty array</dd>
+          <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+          <div className="text-gray-500 italic">Empty array</div>
         </div>
       );
     }
@@ -156,10 +156,10 @@ export default function FieldRenderer({
     if (firstItem?.sys?.type === "Entry" || firstItem?.sys?.type === "Asset") {
       return (
         <div className="mb-6">
-          <dt className="font-semibold text-gray-700 mb-2">
+          <div className="font-semibold text-gray-700 mb-2">
             {fieldName} ({fieldValue.length} items)
-          </dt>
-          <dd className="space-y-2">
+          </div>
+          <div className="space-y-2">
             {fieldValue.map((item, index) => (
               <FieldRenderer
                 key={item.sys?.id || index}
@@ -167,7 +167,7 @@ export default function FieldRenderer({
                 fieldValue={item}
               />
             ))}
-          </dd>
+          </div>
         </div>
       );
     }
@@ -175,8 +175,8 @@ export default function FieldRenderer({
     // Simple array of primitives
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd>
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div>
           <ul className="list-disc list-inside space-y-1">
             {fieldValue.map((item, index) => (
               <li key={index} className="text-gray-800">
@@ -184,7 +184,7 @@ export default function FieldRenderer({
               </li>
             ))}
           </ul>
-        </dd>
+        </div>
       </div>
     );
   }
@@ -197,10 +197,10 @@ export default function FieldRenderer({
   ) {
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd className="text-gray-800">
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div className="text-gray-800">
           Latitude: {fieldValue.lat}, Longitude: {fieldValue.lon}
-        </dd>
+        </div>
       </div>
     );
   }
@@ -210,8 +210,8 @@ export default function FieldRenderer({
     const date = new Date(fieldValue);
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd className="text-gray-800">{date.toLocaleString()}</dd>
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div className="text-gray-800">{date.toLocaleString()}</div>
       </div>
     );
   }
@@ -220,8 +220,8 @@ export default function FieldRenderer({
   if (typeof fieldValue === "boolean") {
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd className="text-gray-800">{fieldValue ? "Yes" : "No"}</dd>
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div className="text-gray-800">{fieldValue ? "Yes" : "No"}</div>
       </div>
     );
   }
@@ -230,8 +230,8 @@ export default function FieldRenderer({
   if (typeof fieldValue === "number") {
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd className="text-gray-800">{fieldValue.toLocaleString()}</dd>
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div className="text-gray-800">{fieldValue.toLocaleString()}</div>
       </div>
     );
   }
@@ -240,12 +240,12 @@ export default function FieldRenderer({
   if (typeof fieldValue === "object") {
     return (
       <div className="mb-4">
-        <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-        <dd>
+        <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+        <div>
           <pre className="bg-gray-100 p-3 rounded text-sm overflow-auto max-h-64">
             {JSON.stringify(fieldValue, null, 2)}
           </pre>
-        </dd>
+        </div>
       </div>
     );
   }
@@ -253,8 +253,8 @@ export default function FieldRenderer({
   // Handle String and everything else
   return (
     <div className="mb-4">
-      <dt className="font-semibold text-gray-700 mb-1">{fieldName}</dt>
-      <dd className="text-gray-800 whitespace-pre-wrap">{String(fieldValue)}</dd>
+      <div className="font-semibold text-gray-700 mb-1">{fieldName}</div>
+      <div className="text-gray-800 whitespace-pre-wrap">{String(fieldValue)}</div>
     </div>
   );
 }
