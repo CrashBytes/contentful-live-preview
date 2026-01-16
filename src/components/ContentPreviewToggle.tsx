@@ -63,7 +63,7 @@ function ContentPreview({ entry, contentTypeName }: ContentPreviewProps) {
       {/* Hero Image */}
       {image && (
         <div className="mb-8 -mx-4 sm:mx-0 sm:rounded-lg overflow-hidden">
-          <FieldRenderer field={image} fieldName="image" />
+          <FieldRenderer fieldName="image" fieldValue={image} />
         </div>
       )}
 
@@ -114,7 +114,7 @@ function ContentPreview({ entry, contentTypeName }: ContentPreviewProps) {
       {/* Main Content */}
       {body && (
         <div className="prose prose-lg max-w-none mb-12">
-          <FieldRenderer field={body} fieldName="content" />
+          <FieldRenderer fieldName="content" fieldValue={body} />
         </div>
       )}
 
@@ -130,7 +130,7 @@ function ContentPreview({ entry, contentTypeName }: ContentPreviewProps) {
                   {key.replace(/([A-Z])/g, " $1").trim()}
                 </dt>
                 <dd className="text-gray-900">
-                  <FieldRenderer field={value} fieldName={key} />
+                  <FieldRenderer fieldName={key} fieldValue={value} />
                 </dd>
               </div>
             ))}
@@ -154,7 +154,7 @@ function DebugView({ entry }: { entry: any }) {
             </span>
           </h3>
           <div className="text-gray-700">
-            <FieldRenderer field={fieldValue} fieldName={fieldName} />
+            <FieldRenderer fieldName={fieldName} fieldValue={fieldValue} />
           </div>
         </div>
       ))}
