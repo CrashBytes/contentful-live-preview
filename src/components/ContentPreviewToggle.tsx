@@ -156,6 +156,15 @@ function DebugView({ entry }: { entry: any }) {
           <div className="text-gray-700">
             <FieldRenderer fieldName={fieldName} fieldValue={fieldValue} />
           </div>
+          {/* Show raw JSON for debugging */}
+          <details className="mt-4">
+            <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700">
+              Show raw JSON
+            </summary>
+            <pre className="mt-2 bg-gray-50 p-3 rounded text-xs overflow-auto max-h-96">
+              {JSON.stringify(fieldValue, null, 2)}
+            </pre>
+          </details>
         </div>
       ))}
     </div>
