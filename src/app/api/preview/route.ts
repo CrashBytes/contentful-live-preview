@@ -1,6 +1,7 @@
 import { draftMode } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
+import { env } from "@/lib/env";
 
 export async function GET(request: NextRequest) {
   // Parse query parameters
@@ -9,7 +10,7 @@ export async function GET(request: NextRequest) {
   const slug = searchParams.get("slug");
 
   // Check the secret
-  if (secret !== process.env.CONTENTFUL_PREVIEW_SECRET) {
+  if (secret !== env.CONTENTFUL_PREVIEW_SECRET) {
     return new Response("Invalid token", { status: 401 });
   }
 
