@@ -8,7 +8,7 @@ interface ContentRendererProps {
   entryId: string;
 }
 
-const ContentRenderer = ({ content, entryId }: ContentRendererProps) => {
+const ContentRenderer = ({ content }: ContentRendererProps) => {
   return (
     <div className="prose max-w-none">
       <RichText content={content} />

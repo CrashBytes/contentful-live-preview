@@ -1,17 +1,18 @@
 import { createClient } from "contentful";
+import { env } from "./env";
 
 // Initialize Contentful client for published content
 const client = createClient({
-  space: process.env.CONTENTFUL_SPACE_ID || "",
-  accessToken: process.env.CONTENTFUL_DELIVERY_TOKEN || "",
-  environment: process.env.CONTENTFUL_ENVIRONMENT || "master",
+  space: env.CONTENTFUL_SPACE_ID,
+  accessToken: env.CONTENTFUL_DELIVERY_TOKEN,
+  environment: env.CONTENTFUL_ENVIRONMENT,
 });
 
 // Preview client for draft content with Content Source Maps for inspector mode
 const previewClient = createClient({
-  space: process.env.CONTENTFUL_SPACE_ID || "",
-  accessToken: process.env.CONTENTFUL_PREVIEW_TOKEN || "",
-  environment: process.env.CONTENTFUL_ENVIRONMENT || "master",
+  space: env.CONTENTFUL_SPACE_ID,
+  accessToken: env.CONTENTFUL_PREVIEW_TOKEN,
+  environment: env.CONTENTFUL_ENVIRONMENT,
   host: "preview.contentful.com",
   // Enable Content Source Maps for inspector mode
   includeContentSourceMaps: true,

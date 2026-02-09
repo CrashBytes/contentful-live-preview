@@ -27,20 +27,18 @@ export default async function EntryPage({ params }: PageProps) {
       // Fetch content type information
       const contentTypes = await contentfulClient.fetchContentTypes();
       contentType = contentTypes.find(
-        (ct: any) => ct.sys.id === entry.sys.contentType.sys.id
+        (ct) => ct.sys.id === entry.sys.contentType.sys.id
       );
     } else {
       error = `Entry "${id}" not found`;
     }
-  } catch (e: any) {
-    error = e.message || "An error occurred fetching entry";
+  } catch (e: unknown) {
+    error = e instanceof Error ? e.message : "An error occurred fetching entry";
     console.error("Error fetching entry:", e);
   }
 
   const contentTypeId = entry?.sys?.contentType?.sys?.id;
   const fields = entry?.fields || {};
-  const fieldKeys = Object.keys(fields);
-
   // Try to find a good title
   const title =
     fields.title ||

@@ -20,8 +20,6 @@ export const ContentfulImage: React.FC<ContentfulImageProps> = ({
   className,
   alt = "",
   priority = false,
-  entryId,
-  fieldId,
 }) => {
   // Use Contentful Live Preview to keep the asset updated in real-time
   const liveAsset = useContentfulLiveUpdates(asset);
