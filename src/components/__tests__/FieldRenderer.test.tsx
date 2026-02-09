@@ -4,19 +4,19 @@ import FieldRenderer from '../FieldRenderer';
 
 // Mock the child components
 jest.mock('../RichText', () => {
-  return function MockRichText({ content }: any) {
+  return function MockRichText() {
     return <div data-testid="rich-text">Rich Text Content</div>;
   };
 });
 
 jest.mock('../ContentfulImage', () => {
-  return function MockContentfulImage({ asset, alt }: any) {
-    return <img data-testid="contentful-image" alt={alt} />;
+  return function MockContentfulImage({ alt }: { alt: string }) {
+    return <div data-testid="contentful-image" role="img" aria-label={alt} />;
   };
 });
 
 jest.mock('next/link', () => {
-  return function MockLink({ href, children }: any) {
+  return function MockLink({ href, children }: { href: string; children: React.ReactNode }) {
     return <a href={href}>{children}</a>;
   };
 });

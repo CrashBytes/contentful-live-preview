@@ -22,15 +22,15 @@ export default async function ContentTypePage({ params }: PageProps) {
 
   try {
     contentTypes = await contentfulClient.fetchContentTypes();
-    contentType = contentTypes.find((ct: any) => ct.sys.id === id);
+    contentType = contentTypes.find((ct) => ct.sys.id === id);
     
     if (contentType) {
       entries = await contentfulClient.fetchEntries(id, isEnabled);
     } else {
       error = `Content type "${id}" not found`;
     }
-  } catch (e: any) {
-    error = e.message || "An error occurred fetching entries";
+  } catch (e: unknown) {
+    error = e instanceof Error ? e.message : "An error occurred fetching entries";
     console.error("Error fetching entries:", e);
   }
 
@@ -128,7 +128,7 @@ export default async function ContentTypePage({ params }: PageProps) {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {entries.map((entry: any) => {
+                    {entries.map((entry) => {
                       const entryId = entry.sys.id;
                       const fields = entry.fields || {};
                       

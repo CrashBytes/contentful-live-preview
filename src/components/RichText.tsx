@@ -1,5 +1,5 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
+import { Block, Inline, BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
 import { Document } from "@contentful/rich-text-types";
 import Link from "next/link";
@@ -7,14 +7,10 @@ import ContentfulImage from "./ContentfulImage";
 
 interface RichTextProps {
   content: Document;
-  entryId?: string;
-  fieldId?: string;
 }
 
 export const RichText: React.FC<RichTextProps> = ({
   content,
-  entryId,
-  fieldId,
 }) => {
   // Use Contentful Live Preview to keep the content updated in real-time
   const liveContent = useContentfulLiveUpdates(content);
@@ -35,43 +31,43 @@ export const RichText: React.FC<RichTextProps> = ({
       ),
     },
     renderNode: {
-      [BLOCKS.PARAGRAPH]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.PARAGRAPH]: (_node: Block | Inline, children: React.ReactNode) => (
         <p className="mb-4">{children}</p>
       ),
-      [BLOCKS.HEADING_1]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.HEADING_1]: (_node: Block | Inline, children: React.ReactNode) => (
         <h1 className="text-3xl font-bold mt-6 mb-4">{children}</h1>
       ),
-      [BLOCKS.HEADING_2]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.HEADING_2]: (_node: Block | Inline, children: React.ReactNode) => (
         <h2 className="text-2xl font-bold mt-6 mb-3">{children}</h2>
       ),
-      [BLOCKS.HEADING_3]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.HEADING_3]: (_node: Block | Inline, children: React.ReactNode) => (
         <h3 className="text-xl font-bold mt-5 mb-2">{children}</h3>
       ),
-      [BLOCKS.HEADING_4]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.HEADING_4]: (_node: Block | Inline, children: React.ReactNode) => (
         <h4 className="text-lg font-bold mt-4 mb-2">{children}</h4>
       ),
-      [BLOCKS.HEADING_5]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.HEADING_5]: (_node: Block | Inline, children: React.ReactNode) => (
         <h5 className="text-base font-bold mt-3 mb-1">{children}</h5>
       ),
-      [BLOCKS.HEADING_6]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.HEADING_6]: (_node: Block | Inline, children: React.ReactNode) => (
         <h6 className="text-sm font-bold mt-3 mb-1">{children}</h6>
       ),
-      [BLOCKS.UL_LIST]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.UL_LIST]: (_node: Block | Inline, children: React.ReactNode) => (
         <ul className="mb-4 ml-6 list-disc">{children}</ul>
       ),
-      [BLOCKS.OL_LIST]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.OL_LIST]: (_node: Block | Inline, children: React.ReactNode) => (
         <ol className="mb-4 ml-6 list-decimal">{children}</ol>
       ),
-      [BLOCKS.LIST_ITEM]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.LIST_ITEM]: (_node: Block | Inline, children: React.ReactNode) => (
         <li className="mb-1">{children}</li>
       ),
-      [BLOCKS.QUOTE]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.QUOTE]: (_node: Block | Inline, children: React.ReactNode) => (
         <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4">
           {children}
         </blockquote>
       ),
       [BLOCKS.HR]: () => <hr className="my-6" />,
-      [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
+      [BLOCKS.EMBEDDED_ASSET]: (node: Block | Inline) => {
         const { data } = node;
         const { target } = data;
 
@@ -85,7 +81,7 @@ export const RichText: React.FC<RichTextProps> = ({
           </div>
         );
       },
-      [INLINES.HYPERLINK]: (node: any, children: React.ReactNode) => {
+      [INLINES.HYPERLINK]: (node: Block | Inline, children: React.ReactNode) => {
         const { data } = node;
         const { uri } = data;
 
@@ -112,7 +108,7 @@ export const RichText: React.FC<RichTextProps> = ({
           </a>
         );
       },
-      [INLINES.ENTRY_HYPERLINK]: (node: any, children: React.ReactNode) => {
+      [INLINES.ENTRY_HYPERLINK]: (node: Block | Inline, children: React.ReactNode) => {
         const { data } = node;
         const { target } = data;
 

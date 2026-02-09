@@ -4,7 +4,7 @@ import { useState } from "react";
 import FieldRenderer from "./FieldRenderer";
 
 interface ContentPreviewProps {
-  entry: any;
+  entry: Record<string, unknown> & { fields?: Record<string, unknown>; sys?: Record<string, unknown> };
   contentTypeName: string;
 }
 
@@ -140,7 +140,7 @@ function ContentPreview({ entry, contentTypeName }: ContentPreviewProps) {
   );
 }
 
-function DebugView({ entry }: { entry: any }) {
+function DebugView({ entry }: { entry: ContentPreviewProps["entry"] }) {
   const fields = entry.fields || {};
 
   return (
@@ -172,7 +172,7 @@ function DebugView({ entry }: { entry: any }) {
 }
 
 // Helper functions
-function findField(fields: Record<string, any>, possibleNames: string[]): any {
+function findField(fields: Record<string, unknown>, possibleNames: string[]): unknown {
   for (const name of possibleNames) {
     if (fields[name] !== undefined && fields[name] !== null) {
       return fields[name];
@@ -181,18 +181,22 @@ function findField(fields: Record<string, any>, possibleNames: string[]): any {
   return null;
 }
 
-function renderFieldValue(field: any): string {
+function renderFieldValue(field: unknown): string {
   if (typeof field === "string") return field;
   if (typeof field === "number") return field.toString();
-  if (field?.fields?.title) return field.fields.title;
-  if (field?.fields?.name) return field.fields.name;
+  if (typeof field === "object" && field !== null) {
+    const obj = field as Record<string, unknown>;
+    const fields = obj.fields as Record<string, unknown> | undefined;
+    if (fields?.title) return String(fields.title);
+    if (fields?.name) return String(fields.name);
+  }
   if (Array.isArray(field) && field.length > 0) {
     return field.map(renderFieldValue).join(", ");
   }
   return String(field);
 }
 
-function formatDate(dateField: any): string {
+function formatDate(dateField: unknown): string {
   let date: Date;
   
   if (typeof dateField === "string") {

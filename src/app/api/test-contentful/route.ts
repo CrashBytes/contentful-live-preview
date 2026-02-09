@@ -20,16 +20,17 @@ export async function GET() {
       environment: env.CONTENTFUL_ENVIRONMENT,
       contentTypes: contentTypes.items.map((ct) => ct.name),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Contentful test error:", error);
+
+    const message = error instanceof Error ? error.message : "An error occurred while testing Contentful connection";
+    const stack = error instanceof Error ? error.stack : undefined;
 
     // Return error response
     return NextResponse.json(
       {
-        error:
-          error.message ||
-          "An error occurred while testing Contentful connection",
-        stack: env.NODE_ENV === "development" ? error.stack : undefined,
+        error: message,
+        stack: env.NODE_ENV === "development" ? stack : undefined,
       },
       { status: 500 }
     );

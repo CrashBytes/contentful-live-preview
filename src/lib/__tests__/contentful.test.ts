@@ -12,9 +12,15 @@ jest.mock('contentful', () => ({
   createClient: jest.fn(),
 }));
 
+interface MockContentfulClient {
+  getEntry: jest.Mock;
+  getEntries: jest.Mock;
+  getContentTypes: jest.Mock;
+}
+
 describe('contentful library', () => {
-  let mockClient: any;
-  let mockPreviewClient: any;
+  let mockClient: MockContentfulClient;
+  let mockPreviewClient: MockContentfulClient;
 
   beforeEach(() => {
     // Clear all mocks before each test

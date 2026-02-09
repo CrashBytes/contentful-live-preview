@@ -8,7 +8,7 @@ interface ContentfulTestProps {
 
 export default function ContentfulTest({ initialError }: ContentfulTestProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState<string | null>(initialError);
 
   const testContentful = async () => {
@@ -24,8 +24,8 @@ export default function ContentfulTest({ initialError }: ContentfulTestProps) {
         setResult(data);
         setError(null);
       }
-    } catch (e: any) {
-      setError(e.message || "An error occurred during the test");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "An error occurred during the test");
     } finally {
       setLoading(false);
     }

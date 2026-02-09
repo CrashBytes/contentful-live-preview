@@ -14,8 +14,8 @@ export default async function Home() {
 
   try {
     contentTypes = await contentfulClient.fetchContentTypes();
-  } catch (e: any) {
-    error = e.message || "An error occurred fetching content types";
+  } catch (e: unknown) {
+    error = e instanceof Error ? e.message : "An error occurred fetching content types";
     console.error("Error fetching content types:", e);
   }
 
@@ -79,7 +79,7 @@ export default async function Home() {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {contentTypes.map((contentType: any) => (
+                    {contentTypes.map((contentType) => (
                       <Link
                         key={contentType.sys.id}
                         href={`/content-type/${contentType.sys.id}`}
