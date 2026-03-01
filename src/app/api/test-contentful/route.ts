@@ -1,39 +1,14 @@
 import { NextResponse } from "next/server";
 import { createClient } from "contentful";
+import { env } from "@/lib/env";
 
 export async function GET() {
   try {
-    // Log environment variables
-    console.log("API - CONTENTFUL_SPACE_ID:", process.env.CONTENTFUL_SPACE_ID);
-    console.log(
-      "API - CONTENTFUL_ENVIRONMENT:",
-      process.env.CONTENTFUL_ENVIRONMENT
-    );
-    console.log(
-      "API - CONTENTFUL_DELIVERY_TOKEN (exists):",
-      !!process.env.CONTENTFUL_DELIVERY_TOKEN
-    );
-
-    // Check if required environment variables are set
-    if (!process.env.CONTENTFUL_SPACE_ID) {
-      return NextResponse.json(
-        { error: "CONTENTFUL_SPACE_ID is not set" },
-        { status: 500 }
-      );
-    }
-
-    if (!process.env.CONTENTFUL_DELIVERY_TOKEN) {
-      return NextResponse.json(
-        { error: "CONTENTFUL_DELIVERY_TOKEN is not set" },
-        { status: 500 }
-      );
-    }
-
     // Create Contentful client directly here to test
     const client = createClient({
-      space: process.env.CONTENTFUL_SPACE_ID,
-      accessToken: process.env.CONTENTFUL_DELIVERY_TOKEN,
-      environment: process.env.CONTENTFUL_ENVIRONMENT || "master",
+      space: env.CONTENTFUL_SPACE_ID,
+      accessToken: env.CONTENTFUL_DELIVERY_TOKEN,
+      environment: env.CONTENTFUL_ENVIRONMENT,
     });
 
     // Test the connection by getting content types
@@ -41,8 +16,8 @@ export async function GET() {
 
     // Return success response
     return NextResponse.json({
-      spaceId: process.env.CONTENTFUL_SPACE_ID,
-      environment: process.env.CONTENTFUL_ENVIRONMENT || "master",
+      spaceId: env.CONTENTFUL_SPACE_ID,
+      environment: env.CONTENTFUL_ENVIRONMENT,
       contentTypes: contentTypes.items.map((ct) => ct.name),
     });
   } catch (error: any) {
@@ -54,7 +29,7 @@ export async function GET() {
         error:
           error.message ||
           "An error occurred while testing Contentful connection",
-        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+        stack: env.NODE_ENV === "development" ? error.stack : undefined,
       },
       { status: 500 }
     );
