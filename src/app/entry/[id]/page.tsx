@@ -6,19 +6,19 @@ import Template from "../../template";
 import Link from "next/link";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function EntryPage({ params }: PageProps) {
-  const { id } = params;
-  const { isEnabled } = draftMode();
+  const { id } = await params;
+  const { isEnabled } = await draftMode();
 
   // Fetch the entry
-  let entry = null;
-  let error = null;
-  let contentType = null;
+  let entry: any = null;
+  let error: string | null = null;
+  let contentType: any = null;
 
   try {
     entry = await contentfulClient.fetchEntry(id, isEnabled);
@@ -140,7 +140,9 @@ export default async function EntryPage({ params }: PageProps) {
                 </div>
               </div>
             </div>
-          ) : entry ? (
+          ) : (
+            // When there is no error the entry is always present (a missing
+            // entry sets `error` above).
             <div className="bg-white shadow rounded-lg overflow-hidden">
               {/* Entry Header */}
               <div className="bg-gray-800 text-white px-6 py-4">
@@ -209,7 +211,7 @@ export default async function EntryPage({ params }: PageProps) {
                 </dl>
               </div>
             </div>
-          ) : null}
+          )}
         </div>
       </main>
     </Template>

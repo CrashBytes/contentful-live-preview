@@ -1,11 +1,4 @@
-import {
-  getClient,
-  fetchEntry,
-  fetchEntries,
-  fetchEntriesByField,
-  fetchContentTypes,
-} from '../contentful';
-import { createClient } from 'contentful';
+import type * as ContentfulLib from '../contentful';
 
 // Mock the contentful module
 jest.mock('contentful', () => ({
@@ -16,8 +9,18 @@ describe('contentful library', () => {
   let mockClient: any;
   let mockPreviewClient: any;
 
+  // The contentful module creates its delivery and preview clients at import
+  // time (module scope). To make the mocked clients deterministic per test, we
+  // reset the module registry and re-import the module after configuring the
+  // createClient mock, so the two clients are constructed from our mocks.
+  let getClient: typeof ContentfulLib.getClient;
+  let fetchEntry: typeof ContentfulLib.fetchEntry;
+  let fetchEntries: typeof ContentfulLib.fetchEntries;
+  let fetchEntriesByField: typeof ContentfulLib.fetchEntriesByField;
+  let fetchContentTypes: typeof ContentfulLib.fetchContentTypes;
+
   beforeEach(() => {
-    // Clear all mocks before each test
+    jest.resetModules();
     jest.clearAllMocks();
 
     // Create mock client methods
@@ -30,10 +33,21 @@ describe('contentful library', () => {
     mockClient = createMockClient();
     mockPreviewClient = createMockClient();
 
-    // Mock createClient to return our mock clients
+    // Mock createClient to return our mock clients. The contentful module
+    // constructs the delivery client first and the preview client second.
+    const { createClient } = require('contentful');
     (createClient as jest.Mock)
       .mockReturnValueOnce(mockClient) // First call (regular client)
       .mockReturnValueOnce(mockPreviewClient); // Second call (preview client)
+
+    // Import the module under test AFTER the mock is configured so its
+    // module-scope clients are built from the mocks above.
+    const contentful = require('../contentful');
+    getClient = contentful.getClient;
+    fetchEntry = contentful.fetchEntry;
+    fetchEntries = contentful.fetchEntries;
+    fetchEntriesByField = contentful.fetchEntriesByField;
+    fetchContentTypes = contentful.fetchContentTypes;
   });
 
   describe('getClient', () => {
@@ -91,6 +105,15 @@ describe('contentful library', () => {
 
       consoleSpy.mockRestore();
     });
+
+    it('defaults to the regular client when preview is omitted', async () => {
+      mockClient.getEntry.mockResolvedValue(mockEntry);
+
+      const result = await fetchEntry('test-id');
+
+      expect(mockClient.getEntry).toHaveBeenCalledWith('test-id');
+      expect(result).toEqual(mockEntry);
+    });
   });
 
   describe('fetchEntries', () => {
@@ -143,6 +166,16 @@ describe('contentful library', () => {
 
       consoleSpy.mockRestore();
     });
+
+    it('defaults preview and options when omitted', async () => {
+      mockClient.getEntries.mockResolvedValue(mockEntries);
+
+      await fetchEntries('blogPost');
+
+      expect(mockClient.getEntries).toHaveBeenCalledWith({
+        content_type: 'blogPost',
+      });
+    });
   });
 
   describe('fetchEntriesByField', () => {
@@ -184,6 +217,17 @@ describe('contentful library', () => {
       await fetchEntriesByField('blogPost', 'author', 'john-doe', true);
 
       expect(mockPreviewClient.getEntries).toHaveBeenCalled();
+    });
+
+    it('defaults to the regular client when preview is omitted', async () => {
+      mockClient.getEntries.mockResolvedValue(mockEntries);
+
+      await fetchEntriesByField('blogPost', 'author', 'john-doe');
+
+      expect(mockClient.getEntries).toHaveBeenCalledWith({
+        content_type: 'blogPost',
+        'fields.author': 'john-doe',
+      });
     });
 
     it('should return empty array on error', async () => {

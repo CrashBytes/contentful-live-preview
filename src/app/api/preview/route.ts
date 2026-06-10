@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Enable draft mode
-  draftMode().enable();
+  (await draftMode()).enable();
 
   // Redirect to the path from the fetched entry
   // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities

@@ -188,6 +188,30 @@ describe('FieldRenderer', () => {
       render(<FieldRenderer fieldName="media" fieldValue={assets} />);
       expect(screen.getByText('media (1 items)')).toBeInTheDocument();
     });
+
+    it('renders an array of entries without sys.id using the index key', () => {
+      const entries = [
+        { sys: { type: 'Entry' }, fields: { title: 'No Id Entry' } },
+      ];
+      render(<FieldRenderer fieldName="related" fieldValue={entries} />);
+      expect(screen.getByText('related (1 items)')).toBeInTheDocument();
+      expect(screen.getByText('No Id Entry')).toBeInTheDocument();
+    });
+  });
+
+  describe('Asset without fields wrapper', () => {
+    it('reads file directly when the asset has no fields object', () => {
+      const asset = {
+        sys: { type: 'Asset', id: 'asset-x' },
+        file: {
+          url: '//assets.ctfassets.net/flat.pdf',
+          contentType: 'application/pdf',
+          details: { size: 102400 },
+        },
+      };
+      render(<FieldRenderer fieldName="doc" fieldValue={asset} />);
+      expect(screen.getByText('(100.0 KB)')).toBeInTheDocument();
+    });
   });
 
   describe('Location handling', () => {
@@ -228,10 +252,13 @@ describe('FieldRenderer', () => {
   describe('Object handling', () => {
     it('should render JSON for complex objects', () => {
       const obj = { key: 'value', nested: { data: 'test' } };
-      render(<FieldRenderer fieldName="metadata" fieldValue={obj} />);
-      const pre = screen.getByRole('textbox', { hidden: true });
-      expect(pre.textContent).toContain('"key"');
-      expect(pre.textContent).toContain('"value"');
+      const { container } = render(
+        <FieldRenderer fieldName="metadata" fieldValue={obj} />
+      );
+      const pre = container.querySelector('pre');
+      expect(pre).not.toBeNull();
+      expect(pre?.textContent).toContain('"key"');
+      expect(pre?.textContent).toContain('"value"');
     });
   });
 

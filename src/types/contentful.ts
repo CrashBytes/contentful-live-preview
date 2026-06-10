@@ -1,4 +1,4 @@
-import { Asset, Entry } from "contentful";
+import { Asset, Entry, EntrySkeletonType } from "contentful";
 import { Document } from "@contentful/rich-text-types";
 
 // Page content type
@@ -11,7 +11,8 @@ export interface PageFields {
   publishDate?: string;
 }
 
-export type Page = Entry<PageFields>;
+export type PageSkeleton = EntrySkeletonType<PageFields, "page">;
+export type Page = Entry<PageSkeleton>;
 
 // Homepage content type
 export interface HomepageFields {
@@ -21,10 +22,11 @@ export interface HomepageFields {
   heroTitle?: string;
   heroSubtitle?: string;
   heroImage?: Asset;
-  featuredPages?: Entry<PageFields>[];
+  featuredPages?: Page[];
 }
 
-export type Homepage = Entry<HomepageFields>;
+export type HomepageSkeleton = EntrySkeletonType<HomepageFields, "homepage">;
+export type Homepage = Entry<HomepageSkeleton>;
 
 // Section content type
 export interface SectionFields {
@@ -36,7 +38,8 @@ export interface SectionFields {
   layout?: string;
 }
 
-export type Section = Entry<SectionFields>;
+export type SectionSkeleton = EntrySkeletonType<SectionFields, "section">;
+export type Section = Entry<SectionSkeleton>;
 
 // Author content type
 export interface AuthorFields {
@@ -46,7 +49,8 @@ export interface AuthorFields {
   email?: string;
 }
 
-export type Author = Entry<AuthorFields>;
+export type AuthorSkeleton = EntrySkeletonType<AuthorFields, "author">;
+export type Author = Entry<AuthorSkeleton>;
 
 // Category content type
 export interface CategoryFields {
@@ -56,7 +60,8 @@ export interface CategoryFields {
   icon?: Asset;
 }
 
-export type Category = Entry<CategoryFields>;
+export type CategorySkeleton = EntrySkeletonType<CategoryFields, "category">;
+export type Category = Entry<CategorySkeleton>;
 
 // Navigation item content type
 export interface NavigationItemFields {
@@ -65,12 +70,20 @@ export interface NavigationItemFields {
   openInNewTab?: boolean;
 }
 
-export type NavigationItem = Entry<NavigationItemFields>;
+export type NavigationItemSkeleton = EntrySkeletonType<
+  NavigationItemFields,
+  "navigationItem"
+>;
+export type NavigationItem = Entry<NavigationItemSkeleton>;
 
 // Navigation content type
 export interface NavigationFields {
   name: string;
-  items: Entry<NavigationItemFields>[];
+  items: NavigationItem[];
 }
 
-export type Navigation = Entry<NavigationFields>;
+export type NavigationSkeleton = EntrySkeletonType<
+  NavigationFields,
+  "navigation"
+>;
+export type Navigation = Entry<NavigationSkeleton>;

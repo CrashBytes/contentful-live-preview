@@ -13,7 +13,7 @@ interface ContentfulImageProps {
   fieldId?: string;
 }
 
-export const ContentfulImage: React.FC<ContentfulImageProps> = ({
+export function ContentfulImage({
   asset,
   width,
   height,
@@ -22,7 +22,7 @@ export const ContentfulImage: React.FC<ContentfulImageProps> = ({
   priority = false,
   entryId,
   fieldId,
-}) => {
+}: ContentfulImageProps) {
   // Use Contentful Live Preview to keep the asset updated in real-time
   const liveAsset = useContentfulLiveUpdates(asset);
 
@@ -30,12 +30,16 @@ export const ContentfulImage: React.FC<ContentfulImageProps> = ({
     return null;
   }
 
-  const { url, details } = liveAsset.fields.file;
+  const file = liveAsset.fields.file as {
+    url: string;
+    details?: { image?: { width?: number; height?: number } };
+  };
+  const { url, details } = file;
   const imageUrl = `https:${url}`;
 
-  const imageWidth = width || details.image?.width || 800;
-  const imageHeight = height || details.image?.height || 600;
-  const imageAlt = alt || liveAsset.fields.title || "";
+  const imageWidth = width || details?.image?.width || 800;
+  const imageHeight = height || details?.image?.height || 600;
+  const imageAlt = alt || (liveAsset.fields.title as string) || "";
 
   return (
     <Image
@@ -47,6 +51,6 @@ export const ContentfulImage: React.FC<ContentfulImageProps> = ({
       priority={priority}
     />
   );
-};
+}
 
 export default ContentfulImage;

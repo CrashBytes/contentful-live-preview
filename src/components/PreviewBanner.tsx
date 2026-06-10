@@ -7,7 +7,7 @@ interface PreviewBannerProps {
   isPreview: boolean;
 }
 
-export const PreviewBanner: React.FC<PreviewBannerProps> = ({ isPreview }) => {
+export function PreviewBanner({ isPreview }: PreviewBannerProps) {
   const router = useRouter();
 
   if (!isPreview) {
@@ -33,6 +33,6 @@ export const PreviewBanner: React.FC<PreviewBannerProps> = ({ isPreview }) => {
       </Link>
     </div>
   );
-};
+}
 
 export default PreviewBanner;

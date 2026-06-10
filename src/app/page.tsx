@@ -6,10 +6,10 @@ import Link from "next/link";
 
 export default async function Home() {
   // Get the draft mode status
-  const { isEnabled } = draftMode();
+  const { isEnabled } = await draftMode();
 
   // Fetch all content types
-  let contentTypes = [];
+  let contentTypes: any[] = [];
   let error = null;
 
   try {

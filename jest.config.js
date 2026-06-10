@@ -9,6 +9,9 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
+  // The V8 coverage provider instruments `"use client"` components correctly,
+  // whereas the SWC/istanbul transform mis-attributes their declaration line.
+  coverageProvider: 'v8',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
@@ -17,6 +20,8 @@ const customJestConfig = {
     '!src/**/*.d.ts',
     '!src/**/*.stories.{js,jsx,ts,tsx}',
     '!src/**/__tests__/**',
+    // Type-only declarations contain no executable runtime code.
+    '!src/types/**',
   ],
   coverageThreshold: {
     global: {

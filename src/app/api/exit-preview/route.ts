@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const redirectPath = searchParams.get("redirect") || "/";
 
   // Disable draft mode
-  draftMode().disable();
+  (await draftMode()).disable();
 
   // Redirect to the homepage or specified path
   redirect(redirectPath);

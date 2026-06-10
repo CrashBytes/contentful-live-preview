@@ -11,11 +11,7 @@ interface RichTextProps {
   fieldId?: string;
 }
 
-export const RichText: React.FC<RichTextProps> = ({
-  content,
-  entryId,
-  fieldId,
-}) => {
+export function RichText({ content, entryId, fieldId }: RichTextProps) {
   // Use Contentful Live Preview to keep the content updated in real-time
   const liveContent = useContentfulLiveUpdates(content);
 
@@ -134,6 +130,6 @@ export const RichText: React.FC<RichTextProps> = ({
   };
 
   return <>{documentToReactComponents(liveContent, options)}</>;
-};
+}
 
 export default RichText;

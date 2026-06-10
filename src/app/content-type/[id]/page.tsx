@@ -5,19 +5,19 @@ import Template from "../../template";
 import Link from "next/link";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function ContentTypePage({ params }: PageProps) {
-  const { id } = params;
-  const { isEnabled } = draftMode();
+  const { id } = await params;
+  const { isEnabled } = await draftMode();
 
   // Fetch the content type information
-  let contentTypes = [];
-  let contentType = null;
-  let entries = [];
+  let contentTypes: any[] = [];
+  let contentType: any = null;
+  let entries: any[] = [];
   let error = null;
 
   try {
