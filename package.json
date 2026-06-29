@@ -13,11 +13,11 @@
     "test:ci": "jest --ci --coverage --maxWorkers=2"
   },
   "dependencies": {
-    "@contentful/live-preview": "^4.10.8",
+    "@contentful/live-preview": "^4.10.10",
     "@contentful/rich-text-react-renderer": "^16.2.1",
     "@contentful/rich-text-types": "^17.2.7",
     "@crashbytes/env-shield": "^1.0.4",
-    "contentful": "^11.12.5",
+    "contentful": "^11.12.6",
     "next": "16.2.9",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
