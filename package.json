@@ -17,8 +17,8 @@
     "@contentful/rich-text-react-renderer": "^16.2.2",
     "@contentful/rich-text-types": "^17.2.7",
     "@crashbytes/env-shield": "^1.0.4",
-    "contentful": "^11.12.7",
-    "next": "16.2.12",
+    "contentful": "^11.12.9",
+    "next": "16.3.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -35,26 +35,26 @@
     "js-yaml": "^4.3.1",
     "nanoid": "^3.3.17",
     "brace-expansion": "^2.1.3",
-    "postcss": "^8.5.25"
+    "postcss": "^8.5.26"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",
-    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.1",
+    "@testing-library/user-event": "^14.6.4",
     "@types/jest": "^30.0.0",
-    "@types/node": "26.1.2",
+    "@types/node": "26.2.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "^19.2.4",
     "autoprefixer": "^10.5.4",
-    "eslint": "^9.39.5",
-    "eslint-config-next": "16.2.12",
+    "eslint": "^10.8.1",
+    "eslint-config-next": "16.3.1",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
-    "postcss": "^8.5.25",
+    "postcss": "^8.5.26",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   }
 }
