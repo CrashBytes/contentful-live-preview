@@ -15,8 +15,8 @@ const flatCompat = new FlatCompat({
 
 const eslintConfig = [
   js.configs.recommended,
-  ...flatCompat.config(require("eslint-config-next/core-web-vitals.js")),
-  ...flatCompat.config(require("eslint-config-next/typescript.js")),
+  ...flatCompat.config(require("eslint-config-next/core-web-vitals")),
+  ...flatCompat.config(require("eslint-config-next/typescript")),
   {
     // Project rule preferences, mirrored from the original .eslintrc.json which
     // intentionally treated `any` and unused vars as non-blocking warnings.
